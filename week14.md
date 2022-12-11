@@ -2,7 +2,7 @@
 
 ### 1. Simple Web Server + 3. Google Sheet API
 
-- Sau khi chạy file server.py và mở localhost:5000 thì sẽ hiện lên 1 form login:
+- Sau khi chạy file server.py và mở localhost:5000 thì sẽ hiện lên 1 form login:<br>
     ![image.png](./image.png)
 
 - Page `Signup` với option: `View Info` và `Sheet`:<br>
@@ -17,9 +17,9 @@
     ![image-2.png](./image-2.png)
 
 - `Sheet`: <br>
-    - `Read`:
+    - `Read`:<br>
         ![image-3.png](./image-3.png)
-    - `Create`:
+    - `Create`:<br>
         ![image-4.png](./image-4.png)
     - Tương tự với `Update` và `Delete`
 
