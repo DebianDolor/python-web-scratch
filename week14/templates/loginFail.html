@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <title>Simple Web Server</title>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#Click_sign_up').click(function() {
+          document.getElementById("login_form").style.display = 'none';
+          document.getElementById("sign_up_form").style.display = 'block';    
+        });
+        $('#Click_login').click(function() {
+          document.getElementById("login_form").style.display = 'block';
+          document.getElementById("sign_up_form").style.display = 'none';    
+        });
+      });
+    </script>
+</head>
+<body>
+  <style>
+    .background-radial-gradient {
+      background-color: hsl(218, 41%, 15%);
+      background-image: radial-gradient(1000px circle at 0% 0%,
+          hsl(218, 41%, 35%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%),
+        radial-gradient(1250px circle at 100% 100%,
+          hsl(218, 41%, 45%) 15%,
+          hsl(218, 41%, 30%) 35%,
+          hsl(218, 41%, 20%) 75%,
+          hsl(218, 41%, 19%) 80%,
+          transparent 100%);
+    }
+
+    #radius-shape-1 {
+      height: 220px;
+      width: 220px;
+      top: -30px;
+      left: -130px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    #radius-shape-2 {
+      border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+      bottom: -60px;
+      right: -110px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(#44006b, #ad1fff);
+      overflow: hidden;
+    }
+
+    .bg-glass {
+      background-color: hsla(0, 0%, 100%, 0.9) !important;
+      backdrop-filter: saturate(200%) blur(25px);
+    }
+
+    h3 {
+          background: #F8D7DA;
+          padding: 8px 0;
+          border-radius: 5px;
+          color: #8B3E46;
+          border: 1px solid #F5C6CB;
+          text-align: center
+        }
+  </style>
+    <section class="vh-100 gradient-custom background-radial-gradient">
+        <div class="container py-5 h-70">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+              <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+              <div class="card bg-dark text-white" style="border-radius: 1rem;">
+                <div class="card-body p-5 text-center">
+
+                  <!-- Login -->
+                  <form action="" method="post" id="login_form">
+                    <h3>Incorrect username or password!</h3>
+                    
+                    <div class="mb-md-5 mt-md-4 pb-5">
+        
+                      <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                      <p class="text-white-50 mb-5">Please enter your username and password!</p>
+        
+                      <div class="form-outline form-white mb-4">
+                          <label class="form-label" for="typeEmailX">Username</label>
+                          <input type="text" name="username" id="typeUsername" class="form-control form-control-lg" required/>   
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                          <label class="form-label" for="typePasswordX">Password</label>
+                          <input type="password" name="password" id="typePasswordX" class="form-control form-control-lg" required/>
+                      </div>
+        
+                      <button class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+                    </div>
+                    <div>
+                      <p class="mb-0">Don't have an account? <p id="Click_sign_up" class="text-white-50 fw-bold"><u>Sign up</u></p>
+                      </p>
+                    </div>
+                  </form>
+
+                  <!-- Sign up -->
+
+                  <form action="" method="post" style="display: none;" id="sign_up_form">
+                    <div class="">
+        
+                      <h2 class="fw-bold mb-2 text-uppercase">Sign up</h2>
+                      <p class="text-white-50 mb-5">Please enter your username and password!</p>
+        
+                      <div class="form-outline form-white mb-4">
+                          <label class="form-label" for="typeEmailX">Username</label>
+                          <input type="text" name="username_signup" id="username_signup" class="form-control form-control-lg" required/>   
+                      </div>
+
+                      <div class="form-outline form-white mb-4">
+                          <label class="form-label" for="typePasswordX">Password</label>
+                          <input type="password" name="password_signup" id="password_signup" class="form-control form-control-lg" required/>
+                      </div>
+                      
+                    <!-- Options -->
+                      <div class="form-outline form-white mb-4">
+                        <label class="form-label" for="typePasswordX">What you wanna do?</label>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input type="radio" id="options1" class="form-control" name="options" value="1" checked="checked" />
+                            <label class="form-label" for="form3Example1">View Info</label>
+                          </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                          <div class="form-outline">
+                            <input type="radio" id="options2" class="form-control" name="options" value="2"/>
+                            <label class="form-label" for="form3Example2">Sheet</label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <button class="btn btn-outline-light btn-lg px-5" type="submit">Sign up</button>
+
+                    </div>
+                    <div class="mt-1">
+                      <p class="mt-1">Do you have an account? <p id="Click_login" class="text-white-50 fw-bold"><u>Login</u></p>
+                      </p>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+</html>

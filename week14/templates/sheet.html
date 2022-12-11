@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <title>Simple Web Server</title>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('#options').change(function() {
+          var val = $("#options option:selected").text();
+          document.getElementById("Name").style.display = 'block';
+          document.getElementById("Email").style.display = 'block';
+          if (val == "Read") {
+            document.getElementById("Name").style.display = 'none';
+            document.getElementById("Email").style.display = 'none';
+          } else if (val == "Create") {
+            document.getElementById("Name").style.display = 'block';
+            document.getElementById("Email").style.display = 'block';
+          } else if (val == "Delete") {
+            document.getElementById("Email").style.display = 'block';
+            document.getElementById("Name").style.display = 'none';
+          } else if (val == "Update") {
+            document.getElementById("Email").style.display = 'block';
+            document.getElementById("Name").style.display = 'block';
+          }
+        });
+
+        $('#request').click(function() {
+          var val = $("#options option:selected").text();
+          if (val == "Read"){
+            $.ajax({
+              url : '/read',
+              method: 'POST',
+              data: {
+                gg_shet_url: "gg_shet_url"
+              },
+              success:function(data){
+                $('#user_sheet').html(data);
+              }
+            });
+
+          } else if (val == "Create"){
+            var email = $('#email').val();
+            var name = $('#name').val();
+            $.ajax({
+              url : '/create',
+              method: 'POST',
+              data: {
+                gg_shet_url : "gg_shet_url",
+                email : email,
+                name : name
+              },
+              success:function(data){
+                $('#user_sheet').html(data);
+              }
+            });
+          } else if (val == "Delete"){
+            var email = $('#email').val();
+            $.ajax({
+              url : '/delete',
+              method: 'POST',
+              data: {
+                gg_shet_url : "gg_shet_url",
+                email : email,
+              },
+              success:function(data){
+                $('#user_sheet').html(data);
+              }
+            });
+          } else if (val == "Update"){
+            var email = $('#email').val();
+            var name = $('#name').val();
+            $.ajax({
+              url : '/update',
+              method: 'POST',
+              data: {
+                gg_shet_url : "gg_shet_url",
+                email : email,
+                name : name
+              },
+              success:function(data){
+                $('#user_sheet').html(data);
+              }
+            });
+          } 
+        });
+        
+        $('#Logout').click(function() {
+          $.ajax({
+              url : '/logout',
+              method: 'POST',
+              data: {
+              },
+              success:function(data){
+                window.location.href = "./";
+              }
+            });
+        });
+
+
+      });
+    </script>
+    
+</head>
+<body>
+    <!-- Section: Design Block -->
+<section class="background-radial-gradient overflow-hidden">
+    <style>
+      .background-radial-gradient {
+        background-color: hsl(218, 41%, 15%);
+        background-image: radial-gradient(650px circle at 0% 0%,
+            hsl(218, 41%, 35%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%),
+          radial-gradient(1250px circle at 100% 100%,
+            hsl(218, 41%, 45%) 15%,
+            hsl(218, 41%, 30%) 35%,
+            hsl(218, 41%, 20%) 75%,
+            hsl(218, 41%, 19%) 80%,
+            transparent 100%);
+      }
+  
+      #radius-shape-1 {
+        height: 220px;
+        width: 220px;
+        top: -60px;
+        left: -130px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+      }
+  
+      #radius-shape-2 {
+        border-radius: 38% 62% 63% 37% / 70% 33% 67% 30%;
+        bottom: -60px;
+        right: -110px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(#44006b, #ad1fff);
+        overflow: hidden;
+      }
+  
+      .bg-glass {
+        background-color: hsla(0, 0%, 100%, 0.9) !important;
+        backdrop-filter: saturate(200%) blur(25px);
+      }
+    </style>
+  
+    <div class="container px-4 px-md-5 text-lg-start my-2">
+      <div class="row gx-lg-5 align-items-center mb-5"> 
+        <div class="col-lg-6 mb-5 mb-lg-0 position-relative ">
+          <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>
+          <div id="radius-shape-2" class="position-absolute shadow-5-strong"></div>
+          <div class="card bg-glass" style="width: 800px; height: 900px;">
+            <div class="card-body px-4 py-5 px-md-5">
+
+              <form action="" method="post">
+                <button type="submit" id="Logout">Logout</button>
+              </form>
+
+              <form>
+
+                <h1 class="mb-4">Google Sheet Management</h1>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="form3Example1">Google sheet url</label>
+                  <input type="text" id="gg_shet_url" name="gg_shet_url" class="form-control" required/>    
+                </div>
+
+                <div class="form-outline mb-4">
+                  <label class="form-label" for="form3Example3">Action</label>
+                  <select class="form-control" id="options">
+                    <option id="Create">Create</option>
+                    <option id="Read">Read</option>
+                    <option id="Update">Update</option>
+                    <option id="Delete">Delete</option>
+                  </select>
+                </div>
+  
+                <div class="form-outline mb-4" id="Email">
+                  <label class="form-label" for="form3Example4">Email</label>
+                  <input type="email" name="email" id="email" class="form-control" required/>
+                </div>
+  
+                <div class="form-outline mb-4" id="Name">
+                  <label class="form-label" for="form3Example4">Name</label>
+                  <input type="text" id="name" name="name" class="form-control" required/>
+                </div>
+  
+                <!-- Submit button -->
+                <button type="button" class="btn btn-primary btn-block mb-4" id="request">
+                  Submit
+                </button>
+                <code id="user_sheet">
+                </code>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Section: Design Block -->
+</body>
+</html>
