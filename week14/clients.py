@@ -1,115 +1,106 @@
-from ast import Try
-from posixpath import split
+import argparse
+import requests
 import urllib3.request
 import requests
-import sys
 
 
-def url_handling(agr, url):
-    if agr == "-u":
-        return url
-    else:
-        return "Syntax error url"
-
-
-def method_handling(agr, method):
-    if agr == "-m":
-        return method
-    else:
-        return "Syntax error method"
-
-
-def data_handling(arg, data):
-    if arg == "-data":
-        return data
-    else:
-        return "Syntax error data"
+def getArgs(argv=None):
+    parser = argparse.ArgumentParser(description='Send request to a server')
+    parser.add_argument('-d', '--data',type=str, help='HTTP POST/PUT data')
+    requiredNamed = parser.add_argument_group('required named arguments')
+    requiredNamed.add_argument('-m', '--method',type=str, help='Specify request method to use: HEAD, GET, POST, PUT, DELETE', required=True)
+    requiredNamed.add_argument('-u', '--url',type=str, help='URL to work with', required=True)
+    return parser.parse_args(argv)
 
 
 def handling():
-    arg = sys.argv[1:]
-    cmd = []
-
-    if "-m" not in arg or "-data" not in arg or "-u" not in arg:
-        print("Syntax error")
-        return
-
-    if len(arg) < 5 or len(arg) % 2 != 0:
-        print("Syntax error")
-        return
-
-    for i in range(len(arg)):
-        if i % 2 != 0:
-            cmd.append((arg[i - 1], arg[i]))
-
-    for i in range(len(cmd)):
-        if cmd[i][0] == "-u":
-            url = url_handling(cmd[i][0], cmd[i][1])
-        elif cmd[i][0] == "-data":
-            data = data_handling(cmd[i][0], cmd[i][1])
-        elif cmd[i][0] == "-m":
-            method = method_handling(cmd[i][0], cmd[i][1])
-        else:
-            print("Syntax error")
-            return
-    request_handling(method, data, url)
-
-
-def request_handling(method, str, url):
+    argvals = None             
+    args = getArgs(argvals)
     http = urllib3.PoolManager()
 
-    if method == "HEAD":
+    if args.method == "HEAD":
         try:
-            response = http.request(method, url)
+            response = http.request(args.method, args.url)
             print(response.status)
-        except:
-            print("An exception occurred")
-
-    elif method == "GET":
-        try:
-            response = http.request(method, url)
-            print(response.data.decode("utf-8"))
-        except:
-            print("An exception occurred")
-
-    elif method == "POST":
-        try:
-            data = []
-            body = str.split("&")
-            for i in range(len(body)):
-                data.append(body[i].split("="))
-            data_request = {data[i][0]: data[i][1] for i in range(len(data))}
-            response = http.request(method, url, fields=data_request)
-            print(response.data.decode("utf-8"))
-        except:
-            print("An exception occurred")
-
-    elif method == "DELETE":
-        try:
-            if (str == ""):
-              response = requests.delete("http://127.0.0.1:8686/")
-              print(response)
-            else:
-              response = requests.delete("http://127.0.0.1:8686/?" + str)
-              print(response)
         except Exception as e:
-            print("An exception occurred")
-            print(e)
+            print("The error raised is: ", e)
 
-    elif method == "PUT":
+    elif args.method == "GET":
+        try:
+            response = http.request(args.method, args.url)
+            print(response.data.decode("utf-8"))
+        except Exception as e:
+            print("The error raised is: ", e)
+
+    elif args.method == "POST":
         try:
             data = []
-            body = str.split("&")
+            body = args.data.split("&")
+            if len(body) < 2:
+                print("Missing data! \nData must be passed in this format: 'username=?&password=?'")
+                return
+            
             for i in range(len(body)):
                 data.append(body[i].split("="))
+
+            if data[0][0] != "username":
+                print("Invalid data! \nData must be passed in this format: 'username=?&password=?'")
+                return
+            if data[1][0] != "password":
+                print("Invalid data! \nData must be passed in this format: 'username=?&password=?'")
+                return
             data_request = {data[i][0]: data[i][1] for i in range(len(data))}
 
-            response = requests.put("http://127.0.0.1:8686/?" + str, data_request)
+            response = http.request(args.method, args.url, fields=data_request)
+            print(response.data.decode("utf-8"))
+        except Exception as e:
+            print("The error raised is: ", e)
+
+    elif args.method == "DELETE":
+        try:
+            data = []
+            if "&" in args.data:
+                print("Invalid data! \nData must be passed in this format: 'username=?'")
+                return
+            
+            data.append(args.data.split("="))
+
+            if data[0][0] != "username":
+                print("Invalid data! \nData must be passed in this format: 'username=?'")
+                return
+
+            response = requests.delete(args.url + "/?" + args.data)
             print(response)
         except Exception as e:
-            print("An exception occurred")
-            print(e)
+            print("The error raised is: ", e)
 
+    elif args.method == "PUT":
+        try:
+            data = []
+            body = args.data.split("&")
+            if len(body) < 2:
+                print("Missing data! \nData must be passed in this format: 'username=?&password=?'")
+                return
+            
+            for i in range(len(body)):
+                data.append(body[i].split("="))
+
+            if data[0][0] != "username":
+                print("Invalid data! \nData must be passed in this format: 'username=?&password=?'")
+                return
+            if data[1][0] != "password":
+                print("Invalid data! \nData must be passed in this format: 'username=?&password=?'")
+                return
+            data_request = {data[i][0]: data[i][1] for i in range(len(data))}
+
+            response = requests.put(args.url + "/?" + args.data, data_request)
+            print(response)
+        except Exception as e:
+            print("The error raised is: ", e)
+
+    else: 
+        print("Method not supported. \nThe available methods are: HEAD, GET, POST, PUT, DELETE")
+            
 
 if __name__ == "__main__":
     handling()
